@@ -132,13 +132,13 @@ fun AuthScreen(
                             )
                             .padding(16.dp)
                     ) {
-                        if(state== 0){
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(id = R.drawable.signin_image),
-                            contentDescription = "Welcome Image"
-                        )
-                        } else{
+                        if (state == 0) {
+                            Image(
+                                modifier = Modifier.fillMaxSize(),
+                                painter = painterResource(id = R.drawable.signin_image),
+                                contentDescription = "Welcome Image"
+                            )
+                        } else {
                             Image(
                                 modifier = Modifier.fillMaxSize(),
                                 painter = painterResource(id = R.drawable.register_image),
@@ -228,8 +228,7 @@ fun AuthScreen(
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
                             }
-                        }
-                    )
+                        })
 
                     Spacer(modifier = Modifier.height(24.dp))
 
@@ -240,11 +239,12 @@ fun AuthScreen(
                         }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp)
                     ) {
                         if (state == 0) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.Login,
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp),
-                        )} else{
+                            Icon(
+                                Icons.AutoMirrored.Filled.Login,
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp),
+                            )
+                        } else {
                             Icon(
                                 Icons.Filled.HowToReg,
                                 contentDescription = null,
@@ -277,11 +277,12 @@ fun AuthScreen(
                             }
                         }) {
                             if (state == 0) {
-                            Icon(
-                                Icons.Default.HowToReg,
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp),
-                            )} else{
+                                Icon(
+                                    Icons.Default.HowToReg,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(24.dp),
+                                )
+                            } else {
                                 Icon(
                                     Icons.AutoMirrored.Filled.Login,
                                     contentDescription = null,

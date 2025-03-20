@@ -61,8 +61,7 @@ class MainActivity : ComponentActivity() {
             SecretNotesTheme {
                 val navController = rememberNavController()
                 SetupNavGraph(
-                    navController = navController,
-                    trustedTimeManager = trustedTimeManager
+                    navController = navController, trustedTimeManager = trustedTimeManager
                 )
             }
         }

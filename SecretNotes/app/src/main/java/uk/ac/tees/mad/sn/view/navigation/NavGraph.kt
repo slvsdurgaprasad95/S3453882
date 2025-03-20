@@ -11,9 +11,8 @@ import uk.ac.tees.mad.sn.ui.screens.SplashScreen
 
 @Composable
 fun SetupNavGraph(
-    navController: NavHostController,
-    trustedTimeManager: TrustedTimeManager
-){
+    navController: NavHostController, trustedTimeManager: TrustedTimeManager
+) {
     NavHost(
         navController = navController, startDestination = Dest.SplashScreen
     ) {

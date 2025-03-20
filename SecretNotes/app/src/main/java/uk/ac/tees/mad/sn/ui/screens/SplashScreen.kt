@@ -2,7 +2,6 @@ package uk.ac.tees.mad.sn.ui.screens
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,9 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -44,8 +41,7 @@ import uk.ac.tees.mad.sn.viewmodel.SplashScreenViewModel
 
 @Composable
 fun SplashScreen(
-    navController: NavHostController,
-    viewmodel: SplashScreenViewModel = koinViewModel()
+    navController: NavHostController, viewmodel: SplashScreenViewModel = koinViewModel()
 ) {
     val loadingState by viewmodel.loadingState.collectAsStateWithLifecycle()
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -55,22 +51,24 @@ fun SplashScreen(
                 .padding(innerPadding)
                 .background(
                     color = Color.Black
-                ),
-            contentAlignment = Alignment.Center
+                ), contentAlignment = Alignment.Center
         ) {
             Crossfade(
                 targetState = loadingState,
                 animationSpec = tween(durationMillis = 1000),
                 label = "splashScreen"
-            ) {state ->
+            ) { state ->
                 when (state) {
                     is LoadingState.Error -> {
-                        LoadingErrorScreen(errorMessage = state.message,
+                        LoadingErrorScreen(
+                            errorMessage = state.message,
                             onRetry = { viewmodel.startLoading() })
                     }
+
                     is LoadingState.Loading -> {
                         Splash()
                     }
+
                     is LoadingState.Success -> {
                         LaunchedEffect(key1 = Unit) {
 //                            if (viewmodel.isSignedIn()) {
@@ -80,11 +78,11 @@ fun SplashScreen(
 //                                    }
 //                                }
 //                            } else {
-                                navController.navigate(SubGraph.AuthGraph) {
-                                    popUpTo(Dest.SplashScreen) {
-                                        inclusive = true
-                                    }
+                            navController.navigate(SubGraph.AuthGraph) {
+                                popUpTo(Dest.SplashScreen) {
+                                    inclusive = true
                                 }
+                            }
 //                            }
                         }
                     }
@@ -103,20 +101,17 @@ fun Splash() {
     LaunchedEffect(key1 = true) {
         // Logo animation
         logoScale.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            targetValue = 1f, animationSpec = tween(durationMillis = 1000)
         )
         // App name animation
         delay(500) // Stagger the animation
         textAlpha.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            targetValue = 1f, animationSpec = tween(durationMillis = 1000)
         )
         // Tagline animation
         delay(500) // Stagger the animation
         tagLineAndProgressbarAlpha.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            targetValue = 1f, animationSpec = tween(durationMillis = 1000)
         )
 
     }
