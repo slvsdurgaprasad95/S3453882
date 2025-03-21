@@ -7,6 +7,7 @@ import org.koin.dsl.module
 import uk.ac.tees.mad.sn.model.network.NetworkConnectivityManager
 import uk.ac.tees.mad.sn.model.repository.AuthRepository
 import uk.ac.tees.mad.sn.model.repository.NetworkRepository
+import uk.ac.tees.mad.sn.viewmodel.AuthScreenViewModel
 import uk.ac.tees.mad.sn.viewmodel.SplashScreenViewModel
 
 val appModule = module {
@@ -23,4 +24,5 @@ val appModule = module {
 
     // ViewModels
     viewModelOf(::SplashScreenViewModel)
+    viewModelOf(::AuthScreenViewModel)
 }
