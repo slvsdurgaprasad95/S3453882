@@ -70,6 +70,8 @@ import androidx.navigation.NavHostController
 import org.koin.androidx.compose.koinViewModel
 import uk.ac.tees.mad.sn.R
 import uk.ac.tees.mad.sn.model.dataclass.firebase.AuthResult
+import uk.ac.tees.mad.sn.view.navigation.Dest
+import uk.ac.tees.mad.sn.view.navigation.SubGraph
 import uk.ac.tees.mad.sn.viewmodel.AuthScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -138,12 +140,11 @@ fun AuthScreen(
 
                     is AuthResult.Success -> {
                         // Handle successful sign-up
-//                        navController.navigate(SubGraph.HomeGraph) {
-//                            popUpTo(SubGraph.AuthGraph) {
-//                                inclusive = true
-//                            }
-//                        }
-
+                        navController.navigate(Dest.ProfileScreen) {
+                            popUpTo(SubGraph.AuthGraph) {
+                                inclusive = true
+                            }
+                        }
                     }
 
                     is AuthResult.Error -> {

@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import uk.ac.tees.mad.sn.model.time.TrustedTimeManager
 import uk.ac.tees.mad.sn.ui.screens.AuthScreen
+import uk.ac.tees.mad.sn.ui.screens.ProfileScreen
 import uk.ac.tees.mad.sn.ui.screens.SplashScreen
 
 @Composable
@@ -27,7 +28,7 @@ fun SetupNavGraph(
 //                SignUpScreen(navController = navController, animatedVisibilityScope = this)
 //            }
         }
-//        navigation<SubGraph.HomeGraph>(startDestination = Dest.HomeScreen) {
+        navigation<SubGraph.HomeGraph>(startDestination = Dest.ProfileScreen) {
 //            composable<Dest.HomeScreen> {
 //                HomeScreen(navController = navController)
 //            }
@@ -40,9 +41,9 @@ fun SetupNavGraph(
 //                    navController = navController, symbol = args.symbol
 //                )
 //            }
-//            composable<Dest.ProfileScreen> {
-//                ProfileScreen(navController = navController, isDarkMode = isDarkMode)
-//            }
-//        }
+            composable<Dest.ProfileScreen> {
+                ProfileScreen(navController = navController)
+            }
+        }
     }
 }

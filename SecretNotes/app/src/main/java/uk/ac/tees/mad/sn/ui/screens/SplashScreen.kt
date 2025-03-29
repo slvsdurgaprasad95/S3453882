@@ -71,19 +71,19 @@ fun SplashScreen(
 
                     is LoadingState.Success -> {
                         LaunchedEffect(key1 = Unit) {
-//                            if (viewmodel.isSignedIn()) {
-//                                navController.navigate(SubGraph.HomeGraph) {
-//                                    popUpTo(Dest.SplashScreen) {
-//                                        inclusive = true
-//                                    }
-//                                }
-//                            } else {
+                            if (viewmodel.isSignedIn()) {
+                                navController.navigate(SubGraph.HomeGraph) {
+                                    popUpTo(Dest.SplashScreen) {
+                                        inclusive = true
+                                    }
+                                }
+                            } else {
                             navController.navigate(SubGraph.AuthGraph) {
                                 popUpTo(Dest.SplashScreen) {
                                     inclusive = true
                                 }
                             }
-//                            }
+                            }
                         }
                     }
                 }
