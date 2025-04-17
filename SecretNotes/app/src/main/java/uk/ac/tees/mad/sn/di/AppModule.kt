@@ -1,0 +1,48 @@
+package uk.ac.tees.mad.sn.di
+
+import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
+import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
+import uk.ac.tees.mad.sn.model.network.NetworkConnectivityManager
+import uk.ac.tees.mad.sn.model.repository.AuthRepository
+import uk.ac.tees.mad.sn.model.repository.NetworkRepository
+import uk.ac.tees.mad.sn.model.repository.SecretNotesDataRepository
+import uk.ac.tees.mad.sn.model.room.SecretNotesDataDao
+import uk.ac.tees.mad.sn.model.room.SecretNotesDatabase
+import uk.ac.tees.mad.sn.viewmodel.AuthScreenViewModel
+import uk.ac.tees.mad.sn.viewmodel.ProfileScreenViewModel
+import uk.ac.tees.mad.sn.viewmodel.SplashScreenViewModel
+
+val appModule = module {
+    // TrustedTime API
+    includes(trustedTimeModule)
+
+    // Network
+    single { NetworkConnectivityManager(androidContext()) }
+    single { NetworkRepository(get()) }
+
+    // Firebase
+    single { FirebaseAuth.getInstance() }
+    single { AuthRepository(get()) }
+
+    // SecretNotesDatabase
+    single {
+        Room.databaseBuilder(
+            androidApplication(), SecretNotesDatabase::class.java, "secret_notes_database"
+        ).build()
+    }
+    single {
+        val database = get<SecretNotesDatabase>()
+        database.secretNotesDataDao()
+    }
+    single{ SecretNotesDataRepository(get()) }
+
+    // ViewModels
+    viewModelOf(::SplashScreenViewModel)
+    viewModelOf(::AuthScreenViewModel)
+    viewModelOf(::ProfileScreenViewModel)
+
+}
