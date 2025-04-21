@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import uk.ac.tees.mad.sn.model.time.TrustedTimeManager
 import uk.ac.tees.mad.sn.ui.theme.SecretNotesTheme
-import uk.ac.tees.mad.sn.view.navigation.SetupNavGraph
+import uk.ac.tees.mad.sn.Manifestview.navigation.SetupNavGraph
 
 class MainActivity : ComponentActivity() {
     private val trustedTimeManager: TrustedTimeManager by inject()

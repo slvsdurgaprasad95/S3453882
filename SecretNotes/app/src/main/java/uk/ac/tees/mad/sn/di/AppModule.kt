@@ -2,6 +2,7 @@ package uk.ac.tees.mad.sn.di
 
 import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModelOf
@@ -10,9 +11,9 @@ import uk.ac.tees.mad.sn.model.network.NetworkConnectivityManager
 import uk.ac.tees.mad.sn.model.repository.AuthRepository
 import uk.ac.tees.mad.sn.model.repository.NetworkRepository
 import uk.ac.tees.mad.sn.model.repository.SecretNotesDataRepository
-import uk.ac.tees.mad.sn.model.room.SecretNotesDataDao
 import uk.ac.tees.mad.sn.model.room.SecretNotesDatabase
 import uk.ac.tees.mad.sn.viewmodel.AuthScreenViewModel
+import uk.ac.tees.mad.sn.viewmodel.DetailViewModel
 import uk.ac.tees.mad.sn.viewmodel.ProfileScreenViewModel
 import uk.ac.tees.mad.sn.viewmodel.SplashScreenViewModel
 
@@ -27,6 +28,7 @@ val appModule = module {
     // Firebase
     single { FirebaseAuth.getInstance() }
     single { AuthRepository(get()) }
+    single { FirebaseFirestore.getInstance() }
 
     // SecretNotesDatabase
     single {
@@ -44,5 +46,5 @@ val appModule = module {
     viewModelOf(::SplashScreenViewModel)
     viewModelOf(::AuthScreenViewModel)
     viewModelOf(::ProfileScreenViewModel)
-
+    viewModelOf(::DetailViewModel)
 }
