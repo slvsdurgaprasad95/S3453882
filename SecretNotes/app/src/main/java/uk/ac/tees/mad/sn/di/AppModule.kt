@@ -14,6 +14,7 @@ import uk.ac.tees.mad.sn.model.repository.SecretNotesDataRepository
 import uk.ac.tees.mad.sn.model.room.SecretNotesDatabase
 import uk.ac.tees.mad.sn.viewmodel.AuthScreenViewModel
 import uk.ac.tees.mad.sn.viewmodel.DetailViewModel
+import uk.ac.tees.mad.sn.viewmodel.NoteListViewModel
 import uk.ac.tees.mad.sn.viewmodel.ProfileScreenViewModel
 import uk.ac.tees.mad.sn.viewmodel.SplashScreenViewModel
 
@@ -47,4 +48,5 @@ val appModule = module {
     viewModelOf(::AuthScreenViewModel)
     viewModelOf(::ProfileScreenViewModel)
     viewModelOf(::DetailViewModel)
+    viewModelOf(::NoteListViewModel)
 }
