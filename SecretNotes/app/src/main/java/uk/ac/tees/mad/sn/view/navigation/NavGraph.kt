@@ -2,9 +2,11 @@ package uk.ac.tees.mad.sn.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import androidx.navigation.toRoute
 import uk.ac.tees.mad.sn.model.time.TrustedTimeManager
 import uk.ac.tees.mad.sn.ui.screens.AuthScreen
@@ -32,8 +34,12 @@ fun SetupNavGraph(
             composable<Dest.NotesListScreen> {
                 NotesListScreen(navController = navController)
             }
-            composable<Dest.NoteDetailScreen> {
+
+            composable("Detail_Screen/{id}",
+                arguments = listOf(navArgument("id"){type = NavType.StringType})) {navBackStackEntry ->
+                val id = navBackStackEntry.arguments?.getString("id")?:""
                 NoteDetailScreen(
+                    id = id,
                     navController = navController
                 )
             }

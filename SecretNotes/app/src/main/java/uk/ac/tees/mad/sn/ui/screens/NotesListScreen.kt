@@ -126,7 +126,7 @@ fun NotesListScreen(
     }, floatingActionButton = {
         FloatingActionButton(
             onClick = {
-                navController.navigate(Dest.NoteDetailScreen("New Note"))
+                navController.navigate("Detail_Screen/")
             },
         ) {
             Icon(Icons.Filled.Add, "Add Note")
@@ -144,6 +144,7 @@ fun NotesListScreen(
                     // Display each note as a card with cyclical color
                     NoteCard(
                         note = note, randomColor = getCardColor(index), onCardClick = {
+                            navController.navigate("Detail_Screen/${note.id}")
                         })
                 }
                 item(

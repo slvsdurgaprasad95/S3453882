@@ -1,5 +1,6 @@
 package uk.ac.tees.mad.sn.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,10 +26,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,15 +44,23 @@ import uk.ac.tees.mad.sn.viewmodel.DetailViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteDetailScreen(
+    id: String,
     navController: NavHostController,
     viewModel: DetailViewModel = koinViewModel()
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val isLocked = remember { mutableStateOf(false) }
-    var title by remember { mutableStateOf("") }
-    var summary by remember { mutableStateOf("") }
-    var noteContent by remember { mutableStateOf("") }
+    val isLocked by viewModel.isLocked.collectAsState()
+    val title by viewModel.title.collectAsState()
+    val summary by viewModel.summery.collectAsState()
+    val noteContent by viewModel.content.collectAsState()
     val context = LocalContext.current
+
+    LaunchedEffect(id) {
+        if (!id.isEmpty()) {
+            viewModel.getNote(id)
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(), topBar = {
             TopAppBar(
@@ -63,8 +71,7 @@ fun NoteDetailScreen(
                     ) {
                         Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                         Text(
-                            text = "Save/Edit Note",
-                            maxLines = 1,
+                            text = if(id.isEmpty())"Add Note" else "Edit Note",
                             fontSize = 30.sp,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -86,24 +93,29 @@ fun NoteDetailScreen(
                     }
                 }, actions = {
                     IconButton(onClick = {
-                        isLocked.value = !isLocked.value
+                        viewModel.onIsLockedChange(!isLocked)
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Lock,
                             contentDescription = "lock",
                             modifier = Modifier.size(36.dp),
-                            tint = if (isLocked.value) Color.Blue else MaterialTheme.colorScheme.onSurface
+                            tint = if (isLocked) Color.Blue else MaterialTheme.colorScheme.onSurface
                         )
                     }
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete",
-                            modifier = Modifier.size(36.dp),
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
+                    if (!id.isEmpty()) {
+                        IconButton(onClick = {
+                            viewModel.deleteNote(id){
+                                Toast.makeText(context, "Notes deleted", Toast.LENGTH_SHORT).show()
+                                navController.popBackStack()
+                            }
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = "Delete",
+                                modifier = Modifier.size(36.dp),
+                                tint = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
                     }
                 }, scrollBehavior = scrollBehavior
             )
@@ -116,7 +128,7 @@ fun NoteDetailScreen(
         ) {
             OutlinedTextField(
                 value = title,
-                onValueChange = { title = it },
+                onValueChange = {viewModel.onTitleChange(it) },
                 label = { Text("Title") },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -124,7 +136,7 @@ fun NoteDetailScreen(
 
             OutlinedTextField(
                 value = summary,
-                onValueChange = { summary = it },
+                onValueChange = { viewModel.onSummeryChange(it) },
                 label = { Text("Summary") },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -132,22 +144,24 @@ fun NoteDetailScreen(
 
             OutlinedTextField(
                 value = noteContent,
-                onValueChange = { noteContent = it },
+                onValueChange = { viewModel.onContentChange(it) },
                 label = { Text("Note") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f), // Allow the note field to take up remaining space
             )
             TextButton({
-                viewModel.saveNote(
-                    title = title,
-                    summery = summary,
-                    content = noteContent,
-                    isLocked = isLocked.value,
-                    context = context
-                ) {
-                    navController.popBackStack()
+                if (id.isEmpty()){
+                    viewModel.saveNote(context = context) {
+                        navController.popBackStack()
+                    }
                 }
+                else{
+                    viewModel.updateNote(id,context) {
+                        navController.popBackStack()
+                    }
+                }
+
             }, modifier = Modifier.padding(16.dp).align(Alignment.CenterHorizontally)) {
                 Text(
                     "SAVE",
