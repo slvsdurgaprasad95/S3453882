@@ -43,6 +43,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -81,8 +82,8 @@ fun ProfileScreen(
 
     var editNameState by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf(userData.userDetails?.displayName ?: "") }
-    var isDarkModeEnabled by remember { mutableStateOf(true) }
-    var isFingerprintEnabled by remember { mutableStateOf(false) }
+    val isDarkMode by viewmodel.isDarkMode.collectAsState()
+    val isFingerLock by viewmodel.isFingerprintLock.collectAsState()
 
 
     Scaffold(
@@ -350,8 +351,8 @@ fun ProfileScreen(
                                 )
                             }
                             Switch(
-                                checked = isDarkModeEnabled,
-                                onCheckedChange = { isDarkModeEnabled = it })
+                                checked = isDarkMode,
+                                onCheckedChange = { viewmodel.saveDarkModeStatus(it) })
                         }
                         HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                         Row(
@@ -366,13 +367,13 @@ fun ProfileScreen(
                                     fontSize = 18.sp
                                 )
                                 Text(
-                                    text = if (isFingerprintEnabled) "Enabled" else "Disabled",
+                                    text = if (isFingerLock) "Enabled" else "Disabled",
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                             Switch(
-                                checked = isFingerprintEnabled,
-                                onCheckedChange = { isFingerprintEnabled = it })
+                                checked = isFingerLock,
+                                onCheckedChange = { viewmodel.saveFingerLockStatus(it) })
                         }
                     }
                 }

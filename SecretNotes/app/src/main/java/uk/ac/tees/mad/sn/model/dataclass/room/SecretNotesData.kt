@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class SecretNotesData(
     @PrimaryKey val id: String="",
     val userId: String="",
-    val isLocked: Boolean=false,
+    val locked: Boolean=false,
     val title: String="",
     val summary: String="",
     val content: String="",

@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -19,7 +19,7 @@ import uk.ac.tees.mad.sn.model.time.TrustedTimeManager
 import uk.ac.tees.mad.sn.ui.theme.SecretNotesTheme
 import uk.ac.tees.mad.sn.view.navigation.SetupNavGraph
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val trustedTimeManager: TrustedTimeManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

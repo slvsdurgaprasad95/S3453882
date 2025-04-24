@@ -41,7 +41,7 @@ class DetailViewModel(
             val entity = SecretNotesData(
                 id = "",
                 userId = userId,
-                isLocked = _isLocked.value,
+                locked = _isLocked.value,
                 title = _title.value,
                 summary = _summery.value,
                 content = _content.value,
@@ -69,7 +69,7 @@ class DetailViewModel(
             val entity = SecretNotesData(
                 id = id,
                 userId = userId,
-                isLocked = _isLocked.value,
+                locked = _isLocked.value,
                 title = _title.value,
                 summary = _summery.value,
                 content = _content.value,
@@ -99,7 +99,7 @@ class DetailViewModel(
                 _title.value = note.title
                 _summery.value = note.summary
                 _content.value = note.content
-                _isLocked.value = note.isLocked
+                _isLocked.value = note.locked
             }
         }
     }

@@ -44,6 +44,8 @@ android {
 
 dependencies {
 
+    // AppCompat
+    implementation("androidx.appcompat:appcompat:1.7.0")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     // ViewModel utilities for Compose
@@ -101,6 +103,12 @@ dependencies {
 
     // TrustedTime API
     implementation("com.google.android.gms:play-services-time:16.0.1")
+
+    // dataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.4")
+
+    // Biometric auth
+    implementation("androidx.biometric:biometric:1.4.0-alpha03")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

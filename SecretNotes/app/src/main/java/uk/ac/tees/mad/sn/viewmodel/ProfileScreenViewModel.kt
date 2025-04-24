@@ -10,12 +10,14 @@ import kotlinx.coroutines.launch
 import uk.ac.tees.mad.sn.model.dataclass.firebase.AuthResult
 import uk.ac.tees.mad.sn.model.dataclass.firebase.UserData
 import uk.ac.tees.mad.sn.model.dataclass.firebase.UserDetails
+import uk.ac.tees.mad.sn.model.datastore.DataStoreManager
 import uk.ac.tees.mad.sn.model.repository.AuthRepository
 import uk.ac.tees.mad.sn.model.repository.NetworkRepository
 
 class ProfileScreenViewModel(
     private val authRepository: AuthRepository,
     private val networkRepository: NetworkRepository,
+    private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
     val isNetworkAvailable: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
@@ -31,9 +33,21 @@ class ProfileScreenViewModel(
     private val _updateNameResult = MutableStateFlow<AuthResult<Boolean>>(AuthResult.Success(false))
     val updateNameResult: StateFlow<AuthResult<Boolean>> = _updateNameResult.asStateFlow()
 
+    private val _isDarkMode = MutableStateFlow(false)
+    val isDarkMode:StateFlow<Boolean> get() = _isDarkMode
+
+    private val _isFingerprintLock = MutableStateFlow(false)
+    val isFingerprintLock:StateFlow<Boolean> get() = _isFingerprintLock
+
     init {
         observeNetworkConnectivity()
         fetchUserDetails()
+        viewModelScope.launch {
+            dataStoreManager.isDarkModeFlow.collect{_isDarkMode.value = it}
+        }
+        viewModelScope.launch {
+            dataStoreManager.isFingerprintLockFlow.collect{_isFingerprintLock.value = it}
+        }
     }
 
     private fun observeNetworkConnectivity() {
@@ -78,6 +92,20 @@ class ProfileScreenViewModel(
                     fetchUserDetails()
                 }
             }
+        }
+    }
+
+    fun saveDarkModeStatus(value:Boolean){
+        viewModelScope.launch {
+            dataStoreManager.saveDarkModeStatus(value)
+            _isDarkMode.value = value
+        }
+    }
+
+    fun saveFingerLockStatus(value:Boolean){
+        viewModelScope.launch {
+            dataStoreManager.saveFingerprintLockStatus(value)
+            _isFingerprintLock.value = value
         }
     }
 }

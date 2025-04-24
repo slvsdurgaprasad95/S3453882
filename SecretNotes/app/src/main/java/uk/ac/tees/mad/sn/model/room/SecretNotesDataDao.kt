@@ -16,7 +16,7 @@ interface SecretNotesDataDao {
     @Query("SELECT * FROM secret_notes_data WHERE id =:id LIMIT 1")
     fun getNoteById(id: String): Flow<SecretNotesData?>
 
-    @Query("SELECT * FROM secret_notes_data WHERE userID =:userId")
+    @Query("SELECT * FROM secret_notes_data WHERE userID =:userId ORDER BY timestamp DESC")
     fun getAllNotes(userId: String):Flow<List<SecretNotesData>>
 
     @Query("DELETE FROM secret_notes_data WHERE id =:id")
