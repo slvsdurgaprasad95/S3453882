@@ -8,6 +8,8 @@ import android.view.animation.OvershootInterpolator
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -15,12 +17,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import uk.ac.tees.mad.sn.model.datastore.DataStoreManager
 import uk.ac.tees.mad.sn.model.time.TrustedTimeManager
 import uk.ac.tees.mad.sn.ui.theme.SecretNotesTheme
 import uk.ac.tees.mad.sn.view.navigation.SetupNavGraph
 
 class MainActivity : AppCompatActivity() {
     private val trustedTimeManager: TrustedTimeManager by inject()
+    private val dataStoreManager: DataStoreManager by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen().apply {
@@ -57,7 +61,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setContent {
-            SecretNotesTheme {
+            val isDarkMode by dataStoreManager.isDarkModeFlow.collectAsState(false)
+            SecretNotesTheme(isDarkMode) {
                 val navController = rememberNavController()
                 SetupNavGraph(
                     navController = navController, trustedTimeManager = trustedTimeManager
