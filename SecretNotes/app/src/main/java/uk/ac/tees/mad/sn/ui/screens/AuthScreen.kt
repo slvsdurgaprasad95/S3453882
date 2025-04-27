@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -63,7 +62,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -138,7 +136,7 @@ fun AuthScreen(
 
                     is AuthResult.Success -> {
                         // Handle successful sign-up
-                        navController.navigate(Dest.ProfileScreen) {
+                        navController.navigate(Dest.NotesListScreen) {
                             popUpTo(SubGraph.AuthGraph) {
                                 inclusive = true
                             }
@@ -468,40 +466,6 @@ fun AuthScreen(
                         }
 
                         Spacer(modifier = Modifier.height(16.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = if (state == 0) "Don't have an account?" else "Already have an account?",
-                                textAlign = TextAlign.Center,
-                            )
-                            TextButton(onClick = {
-                                viewmodel.switchTabState()
-                            }) {
-                                if (state == 0) {
-                                    Icon(
-                                        Icons.Default.HowToReg,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(24.dp),
-                                    )
-                                } else {
-                                    Icon(
-                                        Icons.AutoMirrored.Filled.Login,
-                                        contentDescription = null,
-                                        modifier = Modifier.size(24.dp),
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(
-                                    text = if (state == 0) "Register" else "Sign In",
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
                     }
                 }
             }
